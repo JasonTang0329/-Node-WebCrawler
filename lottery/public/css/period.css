@@ -1,0 +1,69 @@
+@charset "UTF-8";
+
+html,
+body {
+    background-color: #D4D4D4;
+    height: 100%;
+    width: 100%;
+    font-size: 20px;
+    font-family: 微軟正黑體;
+    text-align: center;
+    font-weight: bold;
+}
+
+.container {
+    background-color: #F1F1F1;
+    max-width: inherit;
+}
+
+.content {
+    display: flex;
+    justify-content: space-around;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+
+.period-wrap {
+    width: 80%;
+}
+
+label {
+    width: 100px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.insertForm {
+    margin-top: 20px;
+}
+
+hr {
+    border: none;
+    border-bottom: solid 1px #f79791;
+    margin-left: 0;
+}
+
+.box-shadow {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.3);
+}
+
+li {
+    transition: 0.5s;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.header-title-wrap {
+    margin-bottom: 6px;
+}
+
+.header-title {
+    padding: 10px;
+    margin: 0;
+}

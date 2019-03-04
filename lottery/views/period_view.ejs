@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>開獎中心</title>
+    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="EXPIRES" CONTENT="0">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+    <link rel="stylesheet" href="css/period.css">
+</head>
+
+<body>
+
+    <div class="col-md-12 header-title-wrap">
+        <h2 class="jumbotron header-title text-center">
+            開獎中心 - 開獎號碼查詢 
+        </h2>
+        <div style="text-align:right;"><a href="/lostpage">遺漏狀況查詢</a></div>
+        <div id="app">
+            <div class="container my-3 p-3 rounded box-shadow">
+
+                <button class="btn" :class="{ 'btn-primary': getGameType() == 'ct', 'btn-light': getGameType() != 'ct' }" @click="getGame('ct')">時時彩</button>
+                <button class="btn" :class="{ 'btn-primary': getGameType() == 'pe', 'btn-light': getGameType() != 'pe' }" @click="getGame('pe')">PC蛋蛋</button>
+                <button class="btn" :class="{ 'btn-primary': getGameType() == 'pk', 'btn-light': getGameType() != 'pk' }" @click="getGame('pk')">北京PK10</button>
+                <button class="btn" :class="{ 'btn-primary': getGameType() == 'sy', 'btn-light': getGameType() != 'sy' }" @click="getGame('sy')">11選5</button>
+                <button class="btn" :class="{ 'btn-primary': getGameType() == 'wn', 'btn-light': getGameType() != 'wn' }" @click="getGame('wn')">幸運飛艇</button>
+                <button class="btn" :class="{ 'btn-primary': getGameType() == 'rc', 'btn-light': getGameType() != 'rc' }" @click="getGame('rc')">紅火牛</button>
+
+
+                <hr/>
+                <div v-if="getGameType() == 'ct'">
+                    <button class="btn" :class="{ 'btn-primary': game == 'ct', 'btn-light': game != 'ct' }" @click="getGame('ct')">重慶</button>
+                    <button class="btn" :class="{ 'btn-primary': game == 'c1', 'btn-light': game != 'c1' }" @click="getGame('c1')">90秒</button>
+                    <button class="btn" :class="{ 'btn-primary': game == 'c2', 'btn-light': game != 'c2' }" @click="getGame('c2')">60秒</button>
+                    <button class="btn" :class="{ 'btn-primary': game == 'c3', 'btn-light': game != 'c3' }" @click="getGame('c3')">45秒</button>
+                </div>
+                <div v-if="getGameType() == 'pe'">
+                    <button class="btn" :class="{ 'btn-primary': game == 'pe', 'btn-light': game != 'pe' }" @click="getGame('pe')">PC蛋蛋</button>
+                </div>
+                <div v-if="getGameType() == 'pk'">
+                    <button class="btn" :class="{ 'btn-primary': game == 'pk', 'btn-light': game != 'pk' }" @click="getGame('pk')">北京PK10</button>
+                </div>
+                <div v-if="getGameType() == 'sy'">
+                    <button class="btn" :class="{ 'btn-primary': game == 'sy', 'btn-light': game != 'sy' }" @click="getGame('sy')">江西</button>
+                </div>
+                <div v-if="getGameType() == 'wn'">
+                    <button class="btn" :class="{ 'btn-primary': game == 'wn', 'btn-light': game != 'wn' }" @click="getGame('wn')">幸運飛艇</button>
+                </div>
+                <div v-if="getGameType() == 'rc'">
+                    <button class="btn" :class="{ 'btn-primary': game == 'rc', 'btn-light': game != 'rc' }" @click="getGame('rc')">紅火牛</button>
+                </div>
+
+
+                <hr/>
+                <h5 v-if="game == 'ct'">資料來源:168 開獎網、52 開獎網、86 彩票、彩票控、開彩網</h5>
+                <h5 v-if="game == 'pe'">資料來源:168 開獎網、150 开奖网、优乐彩 开奖网、api68 開獎網、52 開獎網、du43 開獎網</h5>
+                <h5 v-if="game == 'pk'">資料來源:168 開獎網、150 开奖网、优乐彩 开奖网、好彩網、52 開獎網、du43 開獎網、86 彩票</h5>
+                <h5 v-if="game == 'sy'">資料來源:168 開獎網、360彩票网、好彩网、DU43開獎網、彩客网、彩之家</h5>
+                <h5 v-if="game == 'wn'">資料來源:168 開獎網、150 开奖网、优乐彩 开奖网、手机 开奖网、鼎盛 开奖网</h5>
+                <h5 v-if="game == 'rc'">資料來源:168 開獎網、52 開獎網、86 彩票、彩票控、開彩網</h5>
+
+                <div class="content">
+                    <div class="history">
+                        日期
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-action" v-for="item in dateList" @click="getHistory(item)" :class="{active: currentOption==item}">{{item}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="period-wrap">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th scope="col">期號</th>
+                                <th scope="col">號碼</th>
+                                <th scope="col">時間</th>
+                            </tr>
+                            <tr v-for="item in periodList">
+                                <td>{{game == 'pe' || game == 'pk' ? item.period : item.no}}</td>
+                                <td>{{item.number}}</td>
+                                <td>{{item.datetime}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js'></script>
+    <script src="js/period.js"></script>
+
+</body>
+
+</html>
